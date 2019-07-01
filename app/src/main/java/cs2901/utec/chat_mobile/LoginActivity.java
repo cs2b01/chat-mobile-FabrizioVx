@@ -32,28 +32,30 @@ public class LoginActivity extends AppCompatActivity {
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-
+	
     public void onBtnLoginClicked(View view) {
         // 1. Getting username and password inputs from view
-        EditText txtUsername = (EditText) findViewById(R.id.txtUsername);
-        EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
-        String username = txtUsername.getText().toString();
-        String password = txtPassword.getText().toString();
+        EditText txtUsername = (EditText) findViewById(R.id.txtUsername); //obtengo elemento a traves del id. Sin el EditText me da algo generico
+        EditText txtPassword = (EditText) findViewById(R.id.txtPassword); //obtengo password a través del id.
+        String username = txtUsername.getText().toString(); //obtengo el username  
+        String password = txtPassword.getText().toString(); //obtengo el password
 
         // 2. Creating a message from user input data
-        Map<String, String> message = new HashMap<>();
+        Map<String, String> message = new HashMap<>();   //Map en esteem caso es una interfaz que para la implementación del hashmap
         message.put("username", username);
         message.put("password", password);
-
+	
+	//Hasta ahora la información esta en HASHMAP
+		
         // 3. Converting the message object to JSON string (jsonify)
         JSONObject jsonMessage = new JSONObject(message);
 
         // 4. Sending json message to Server
         JsonObjectRequest request = new JsonObjectRequest(
             Request.Method.POST,
-            "http://10.0.2.2:8080/authenticate",
-            jsonMessage,
-            new Response.Listener<JSONObject>() {
+            "http://10.0.2.2:8080/authenticate", //url-uri
+            jsonMessage,			//el mensaje en formato json
+            new Response.Listener<JSONObject>() {  //Para procesar la respuesta 
                 @Override
                 public void onResponse(JSONObject response) {
                     //TODO
@@ -75,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    if( error instanceof  AuthFailureError ){
+                    error.printStackTrace(); //imprimir esto en la consola del dispositivo movil
+                    if( error instanceof  AuthFailureError ){ //esto corre si la respuesta del servidor es 401
                         showMessage("Unauthorized");
                     }
                     else {
@@ -91,3 +93,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
+
+//request(
+//POST
+//URL-URI
+//MESSAGE
+//LISTENER 
+//ERRORLIST
+//ENVIAR UN REQUEST
+//)
+
+
